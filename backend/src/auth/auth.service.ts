@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from 'src/types/authenticated-socket';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(private jwt: JwtService) {}
 
   generateToken(username: string) {
-    return this.jwtService.sign({ username });
+    return this.jwt.sign({ username });
+  }
+
+  verifyToken(token: string): JwtPayload {
+    return this.jwt.verify(token);
   }
 }

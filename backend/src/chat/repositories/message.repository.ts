@@ -13,10 +13,19 @@ export class MessageRepository {
     return MessageMapper.toEntity(saved);
   }
 
-  async findAll(): Promise<MessageEntity[]> {
+  async findMany({
+    skip,
+    take,
+  }: {
+    skip: number;
+    take: number;
+  }): Promise<MessageEntity[]> {
     const result = await this.prisma.message.findMany({
-      orderBy: { createdAt: 'asc' },
+      skip,
+      take,
+      orderBy: { createdAt: 'desc' },
     });
+
     return result.map(MessageMapper.toEntity);
   }
 }
